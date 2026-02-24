@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '➕ Tambah Penyakit')
+@section('page-title', 'Tambah Penyakit')
 @section('page-subtitle', 'Tambah data penyakit tanaman kopi baru')
 
 @section('content')
@@ -108,8 +108,8 @@
                         required
                     >
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="Hama" {{ old('kategori') == 'Hama' ? 'selected' : '' }}>🐛 Hama</option>
-                        <option value="Penyakit" {{ old('kategori') == 'Penyakit' ? 'selected' : '' }}>🦠 Penyakit</option>
+                        <option value="Hama" {{ old('kategori') == 'Hama' ? 'selected' : '' }}>Hama</option>
+                        <option value="Penyakit" {{ old('kategori') == 'Penyakit' ? 'selected' : '' }}>Penyakit</option>
                     </select>
                     @error('kategori')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

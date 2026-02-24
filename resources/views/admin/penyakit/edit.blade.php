@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '✏️ Edit Penyakit')
+@section('page-title', 'Edit Penyakit')
 @section('page-subtitle', 'Edit data penyakit tanaman kopi')
 
 @section('content')

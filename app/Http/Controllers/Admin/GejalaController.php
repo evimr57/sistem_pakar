@@ -13,7 +13,7 @@ class GejalaController extends Controller
      */
     public function index()
     {
-        $gejalas = MasterGejala::latest()->paginate(10);
+        $gejalas = MasterGejala::orderByRaw('LENGTH(id_gejala) ASC, id_gejala ASC')->paginate(10);
         return view('admin.gejala.index', compact('gejalas'));
     }
 
@@ -31,11 +31,11 @@ class GejalaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_gejala' => ['required', 'string', 'max:10', 'unique:gejala,kode_gejala'],
+            'id_gejala' => ['required', 'string', 'max:10', 'unique:master_gejala,id_gejala'],
             'nama_gejala' => ['required', 'string', 'max:255'],
         ], [
-            'kode_gejala.unique' => 'Kode gejala sudah digunakan',
-            'kode_gejala.required' => 'Kode gejala wajib diisi',
+            'id_gejala.required' => 'Kode gejala wajib diisi',
+            'id_gejala.unique' => 'Kode gejala sudah digunakan',
             'nama_gejala.required' => 'Nama gejala wajib diisi',
         ]);
 
@@ -46,15 +46,7 @@ class GejalaController extends Controller
     }
 
     /**
-     * Display the specified gejala.
-     */
-    public function show(MasterGejala $gejala)
-    {
-        return view('admin.gejala.show', compact('gejala'));
-    }
-
-    /**
-     * Show the form for editing gejala.
+     * Show the form for editing the specified gejala.
      */
     public function edit(MasterGejala $gejala)
     {
@@ -67,10 +59,9 @@ class GejalaController extends Controller
     public function update(Request $request, MasterGejala $gejala)
     {
         $validated = $request->validate([
-            'kode_gejala' => ['required', 'string', 'max:10', 'unique:gejala,kode_gejala,' . $gejala->id],
             'nama_gejala' => ['required', 'string', 'max:255'],
         ], [
-            'kode_gejala.unique' => 'Kode gejala sudah digunakan',
+            'nama_gejala.required' => 'Nama gejala wajib diisi',
         ]);
 
         $gejala->update($validated);

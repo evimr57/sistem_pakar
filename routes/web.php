@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdmin\UserManagementController;
 use App\Http\Controllers\Admin\AdminDashboardController;  // ← TAMBAHKAN INI
 use App\Http\Controllers\Admin\PenyakitController;        // ← DAN INI
-use App\Http\Controllers\Admin\GejalaController;          // ← DAN INI
+use App\Http\Controllers\Admin\GejalaController;
+use App\Http\Controllers\Admin\RuleBasisController;          // ← DAN INI
 use App\Http\Controllers\Admin\ArtikelController;         // ← DAN INI
 
 Route::get('/', function () {
@@ -47,6 +48,11 @@ Route::middleware(['auth', App\Http\Middleware\IsAdmin::class])
         
         // Gejala Management
         Route::resource('gejala', GejalaController::class);
+
+        //Rule Basis Management
+        Route::resource('rule-basis', RuleBasisController::class)->parameters([
+            'rule-basis' => 'ruleBasis'
+        ]);
         
         // Artikel Management
         Route::resource('artikel', ArtikelController::class);

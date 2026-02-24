@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '✅ Manajemen Gejala')
+@section('page-title', 'Manajemen Gejala')
 @section('page-subtitle', 'Kelola data gejala penyakit')
 
 @section('content')
@@ -48,7 +48,7 @@
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $gejalas->firstItem() + $index }}</td>
                                 <td class="px-6 py-4">
                                     <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800">
-                                        {{ $gejala->kode_gejala }}
+                                        {{ $gejala->id_gejala }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">

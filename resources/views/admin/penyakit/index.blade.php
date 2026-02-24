@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '🦠 Manajemen Penyakit')
+@section('page-title', 'Manajemen Penyakit')
 @section('page-subtitle', 'Kelola data penyakit tanaman kopi')
 
 @section('content')
@@ -111,11 +111,11 @@
                             <td class="px-4 py-4 whitespace-nowrap">
                                 @if($penyakit->kategori === 'Penyakit')
                                     <span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-800">
-                                        🦠 Penyakit
+                                        Penyakit
                                     </span>
                                 @elseif($penyakit->kategori === 'Hama')
                                     <span class="px-3 py-1 text-xs font-bold rounded-full bg-orange-100 text-orange-800">
-                                        🐛 Hama
+                                        Hama
                                     </span>
                                 @else
                                     <span class="px-3 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-800">
