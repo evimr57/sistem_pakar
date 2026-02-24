@@ -2,77 +2,87 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use Notifiable;
 
     /**
-     * Kolom yang bisa diisi mass assignment
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
     protected $fillable = [
         'username',
         'nama',
         'email',
+        'password',
         'no_hp',
         'role',
-        'password',
     ];
 
     /**
-     * Kolom yang di-hidden saat serialization (JSON)
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
-     * Casting tipe data
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
      */
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'password' => 'hashed', // Laravel 10+ auto hash
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     // ============================================
     // RELATIONSHIPS
     // ============================================
 
-    /**
-     * User punya banyak riwayat diagnosis
-     */
     public function riwayatDiagnosis()
     {
         return $this->hasMany(RiwayatDiagnosis::class, 'user_id');
     }
 
-    /**
-     * Admin upload banyak artikel budidaya
-     */
     public function artikelBudidaya()
     {
         return $this->hasMany(InformasiBudidaya::class, 'created_by');
     }
 
-    /**
-     * Admin upload banyak artikel hama/penyakit
-     */
     public function artikelHamaPenyakit()
     {
         return $this->hasMany(InformasiHamaPenyakit::class, 'created_by');
     }
 
     // ============================================
-    // HELPER METHODS
+    // ROLE CHECKER HELPER METHODS
     // ============================================
 
     /**
-     * Cek apakah user adalah admin
+     * Cek apakah user adalah Super Admin
+     * 
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
+    }
+
+    /**
+     * Cek apakah user adalah Admin (TETAP SEPERTI SEBELUMNYA)
+     * 
+     * @return bool
      */
     public function isAdmin()
     {
@@ -80,7 +90,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Cek apakah user biasa
+     * Cek apakah user biasa (TETAP SEPERTI SEBELUMNYA)
+     * 
+     * @return bool
      */
     public function isUser()
     {
@@ -88,11 +100,53 @@ class User extends Authenticatable
     }
 
     /**
-     * Get display name
-     * (Karena Laravel default cari 'name', kita redirect ke 'nama')
+     * Cek apakah user punya akses admin (Super Admin ATAU Admin)
+     * Helper baru untuk middleware yang butuh cek "apakah user ini admin atau super admin"
+     * 
+     * @return bool
      */
-    public function getNameAttribute()
+    public function hasAdminAccess()
     {
-        return $this->nama;
+        return in_array($this->role, ['super_admin', 'admin']);
+    }
+
+    /**
+     * Cek apakah user punya akses super admin (alias dari isSuperAdmin)
+     * 
+     * @return bool
+     */
+    public function hasSuperAdminAccess()
+    {
+        return $this->isSuperAdmin();
+    }
+
+    /**
+     * Get role display name (untuk tampilan)
+     * 
+     * @return string
+     */
+    public function getRoleDisplayName()
+    {
+        return match($this->role) {
+            'super_admin' => 'Super Administrator',
+            'admin' => 'Administrator',
+            'user' => 'User',
+            default => 'Unknown',
+        };
+    }
+
+    /**
+     * Get role badge color (untuk UI)
+     * 
+     * @return string
+     */
+    public function getRoleBadgeColor()
+    {
+        return match($this->role) {
+            'super_admin' => 'red',
+            'admin' => 'blue',
+            'user' => 'gray',
+            default => 'gray',
+        };
     }
 }
