@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '🧠 Manajemen Rule Basis')
+@section('page-title', 'Manajemen Rule Basis')
 @section('page-subtitle', 'Kelola aturan diagnosa sistem pakar')
 
 @section('content')

@@ -16,7 +16,6 @@ class InformasiBudidaya extends Model
         'gambar_utama',
         'galeri_gambar',
         'file_pdf',
-        'kategori',
         'tags',
         'urutan',
         'is_published',

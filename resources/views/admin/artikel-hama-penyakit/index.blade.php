@@ -1,7 +1,7 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '📰 Manajemen Artikel')
-@section('page-subtitle', 'Kelola artikel edukasi')
+@section('page-title', 'Artikel Hama & Penyakit')
+@section('page-subtitle', 'Kelola informasi hama dan penyakit kopi')
 
 @section('content')
     @if (session('success'))
@@ -17,14 +17,14 @@
         <div class="p-8">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center">
-                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-3 mr-4">
+                    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-3 mr-4">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Daftar Artikel Edukasi</h3>
+                    <h3 class="text-xl font-bold text-gray-800">Daftar Artikel Hama & Penyakit</h3>
                 </div>
-                <a href="{{ route('admin.artikel.create') }}" class="flex items-center px-5 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold rounded-xl hover:from-yellow-600 hover:to-yellow-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+                <a href="{{ route('admin.artikel-hama-penyakit.create') }}" class="flex items-center px-5 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -38,8 +38,8 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">No</th>
                             <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Judul</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Kategori</th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Penulis</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Jenis</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Status</th>
                             <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Tanggal</th>
                             <th class="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase">Aksi</th>
                         </tr>
@@ -50,23 +50,34 @@
                                 <td class="px-6 py-4 text-sm">{{ $artikels->firstItem() + $index }}</td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm font-semibold text-gray-900">{{ $artikel->judul }}</div>
+                                    @if($artikel->deskripsi_singkat)
+                                        <div class="text-xs text-gray-400 mt-1">{{ Str::limit($artikel->deskripsi_singkat, 60) }}</div>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-yellow-100 text-yellow-800">
-                                        {{ $artikel->kategori }}
-                                    </span>
+                                    @if($artikel->jenis === 'Hama')
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-orange-100 text-orange-800">Hama</span>
+                                    @else
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-red-100 text-red-800">Penyakit</span>
+                                    @endif
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">{{ $artikel->penulis ?? 'Admin' }}</td>
+                                <td class="px-6 py-4">
+                                    @if($artikel->is_published)
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800">Published</span>
+                                    @else
+                                        <span class="px-3 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-600">Draft</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $artikel->created_at->format('d M Y') }}</td>
                                 <td class="px-6 py-4 text-center">
                                     <div class="flex justify-center space-x-2">
-                                        <a href="{{ route('admin.artikel.edit', $artikel) }}" class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">
+                                        <a href="{{ route('admin.artikel-hama-penyakit.edit', $artikel) }}" class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">
                                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                             </svg>
                                             Edit
                                         </a>
-                                        <form action="{{ route('admin.artikel.destroy', $artikel) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
+                                        <form action="{{ route('admin.artikel-hama-penyakit.destroy', $artikel) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-500 text-white text-xs font-semibold rounded-lg hover:bg-red-600 transition">
@@ -81,13 +92,11 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center">
-                                    <div class="text-gray-400">
-                                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                                        </svg>
-                                        <p class="text-xl font-semibold mb-2">Belum ada artikel</p>
-                                    </div>
+                                <td colspan="6" class="px-6 py-12 text-center text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 006.586 13H4"></path>
+                                    </svg>
+                                    <p class="text-xl font-semibold mb-2">Belum ada artikel hama & penyakit</p>
                                 </td>
                             </tr>
                         @endforelse

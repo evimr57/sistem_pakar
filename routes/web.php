@@ -3,11 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdmin\UserManagementController;
-use App\Http\Controllers\Admin\AdminDashboardController;  // ← TAMBAHKAN INI
-use App\Http\Controllers\Admin\PenyakitController;        // ← DAN INI
+use App\Http\Controllers\Admin\AdminDashboardController;  
+use App\Http\Controllers\Admin\PenyakitController;        
 use App\Http\Controllers\Admin\GejalaController;
-use App\Http\Controllers\Admin\RuleBasisController;          // ← DAN INI
-use App\Http\Controllers\Admin\ArtikelController;         // ← DAN INI
+use App\Http\Controllers\Admin\RuleBasisController;          
+use App\Http\Controllers\Admin\ArtikelBudidayaController;         
+use App\Http\Controllers\Admin\ArtikelHamaPenyakitController; 
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,11 +56,9 @@ Route::middleware(['auth', App\Http\Middleware\IsAdmin::class])
         ]);
         
         // Artikel Management
-        Route::resource('artikel', ArtikelController::class);
+        Route::resource('artikel-budidaya', ArtikelBudidayaController::class);
+        Route::resource('artikel-hama-penyakit', ArtikelHamaPenyakitController::class);
         
-        // Bisa tambah route lain di sini:
-        // Route::resource('diagnosa', DiagnosaController::class);
-        // Route::resource('aturan', AturanController::class);
     });
 
 // Profile Routes

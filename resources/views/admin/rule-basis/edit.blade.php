@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '✏️ Edit Rule Basis')
+@section('page-title', 'Edit Rule Basis')
 @section('page-subtitle', 'Edit aturan diagnosa')
 
 @section('content')

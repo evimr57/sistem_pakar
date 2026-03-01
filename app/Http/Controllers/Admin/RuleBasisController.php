@@ -34,7 +34,7 @@ class RuleBasisController extends Controller
 
         $rules = $query->orderBy('id_penyakit', 'asc')
                        ->orderBy('id_gejala', 'asc')
-                       ->paginate(15);
+                       ->paginate(10);
 
         // Statistics
         $totalRules = RuleBasis::count();

@@ -198,18 +198,48 @@
                     </div>
                 </a>
                 
-                <!-- Artikel Management -->
-                <a href="{{ route('admin.artikel.index') }}"
-                   class="menu-item flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.artikel.*') ? 'active bg-gray-700' : '' }} group">
-                    <div class="flex items-center flex-1">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-500/20 group-hover:bg-yellow-500/30 transition-colors">
-                            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-                            </svg>
+                <!-- Informasi Management (Dropdown) -->
+                <div x-data="{ informasiOpen: {{ request()->routeIs('admin.artikel-budidaya.*') || request()->routeIs('admin.artikel-hama-penyakit.*') ? 'true' : 'false' }} }">
+                    
+                    <!-- Dropdown Toggle -->
+                    <button @click="informasiOpen = !informasiOpen"
+                        class="menu-item w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.artikel-budidaya.*') || request()->routeIs('admin.artikel-hama-penyakit.*') ? 'active bg-gray-700' : '' }} group">
+                        <div class="flex items-center flex-1">
+                            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-500/20 group-hover:bg-yellow-500/30 transition-colors">
+                                <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                                </svg>
+                            </div>
+                            <span x-show="sidebarOpen" class="ml-3 font-semibold">Artikel</span>
                         </div>
-                        <span x-show="sidebarOpen" class="ml-3 font-semibold">Artikel</span>
+                        <svg x-show="sidebarOpen" :class="informasiOpen ? 'rotate-180' : ''" 
+                            class="w-4 h-4 text-gray-400 transition-transform duration-200" 
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Sub Menu -->
+                    <div x-show="informasiOpen && sidebarOpen" 
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        class="mt-1 ml-6 pl-4 border-l-2 border-gray-600 space-y-1">
+                        
+                        <!-- Budidaya -->
+                        <a href="{{ route('admin.artikel-budidaya.index') }}"
+                            class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.artikel-budidaya.*') ? 'bg-gray-700 text-white' : 'text-gray-400' }} group transition-colors">
+                            <span class="text-sm font-medium group-hover:text-white">Budidaya</span>
+                        </a>
+
+                        <!-- Hama & Penyakit -->
+                        <a href="{{ route('admin.artikel-hama-penyakit.index') }}"
+                            class="flex items-center px-3 py-2 rounded-lg hover:bg-gray-700 {{ request()->routeIs('admin.artikel-hama-penyakit.*') ? 'bg-gray-700 text-white' : 'text-gray-400' }} group transition-colors">
+                            <span class="text-sm font-medium group-hover:text-white">Hama & Penyakit</span>
+                        </a>
+
                     </div>
-                </a>
+                </div>
 
             </nav>
 
