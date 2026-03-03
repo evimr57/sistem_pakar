@@ -1,6 +1,6 @@
-@extends(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' ? 'layouts.admin-app' : 'layouts.user-app')
+@extends(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin' ? 'layouts.superadmin-app' : 'layouts.user-app')
 
-@section('page-title', '👤 Profile Settings')
+@section('page-title', 'Profile Settings')
 @section('page-subtitle', 'Kelola informasi profil Anda')
 
 @section('content')

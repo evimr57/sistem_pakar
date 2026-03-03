@@ -49,7 +49,7 @@ Route::middleware(['auth', App\Http\Middleware\IsUser::class])
 // Super Admin Routes
 Route::middleware(['auth', App\Http\Middleware\IsSuperAdmin::class])->prefix('super-admin')->name('super-admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('super-admin.dashboard');
+        return view('super-admin.dashboard'); 
     })->name('dashboard');
     
     Route::resource('users', App\Http\Controllers\SuperAdmin\UserManagementController::class);
