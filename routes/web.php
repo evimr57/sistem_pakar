@@ -9,12 +9,14 @@ use App\Http\Controllers\Admin\GejalaController;
 use App\Http\Controllers\Admin\RuleBasisController;          
 use App\Http\Controllers\Admin\ArtikelBudidayaController;         
 use App\Http\Controllers\Admin\ArtikelHamaPenyakitController; 
+use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\User\DiagnosaController;
+use App\Http\Controllers\User\ArtikelUserController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Dashboard untuk user biasa
+//LOGIN
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         // Redirect berdasarkan role
@@ -23,9 +25,24 @@ Route::middleware('auth')->group(function () {
         } elseif (auth()->user()->role === 'admin') {
             return redirect()->route('admin.dashboard');
         }
-        return view('dashboard');
+        return redirect()->route('user.dashboard');
     })->name('dashboard');
 });
+//USER
+Route::middleware(['auth', App\Http\Middleware\IsUser::class])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa.index');
+        Route::post('/diagnosa', [DiagnosaController::class, 'proses'])->name('diagnosa.proses');
+        Route::get('/diagnosa/hasil/{id}', [DiagnosaController::class, 'hasil'])->name('diagnosa.hasil');
+        Route::get('/diagnosa/riwayat', [DiagnosaController::class, 'riwayat'])->name('diagnosa.riwayat');
+        Route::get('/artikel/budidaya', [ArtikelUserController::class, 'budidaya'])->name('artikel.budidaya');
+        Route::get('/artikel/budidaya/{slug}', [ArtikelUserController::class, 'detailBudidaya'])->name('artikel.budidaya.detail');
+        Route::get('/artikel/hama-penyakit', [ArtikelUserController::class, 'hamaPenyakit'])->name('artikel.hama-penyakit');
+        Route::get('/artikel/hama-penyakit/{slug}', [ArtikelUserController::class, 'detailHamaPenyakit'])->name('artikel.hama-penyakit.detail');
+    });
 
 // Super Admin Routes
 Route::middleware(['auth', App\Http\Middleware\IsSuperAdmin::class])->prefix('super-admin')->name('super-admin.')->group(function () {
@@ -36,7 +53,7 @@ Route::middleware(['auth', App\Http\Middleware\IsSuperAdmin::class])->prefix('su
     Route::resource('users', App\Http\Controllers\SuperAdmin\UserManagementController::class);
 });
 
-// Admin Routes (kalau ada)
+// Admin Routes
 Route::middleware(['auth', App\Http\Middleware\IsAdmin::class])
     ->prefix('admin')
     ->name('admin.')

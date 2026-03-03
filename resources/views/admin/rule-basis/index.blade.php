@@ -77,7 +77,7 @@
         <div class="p-6 border-b border-gray-200">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-3 mr-4">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-3 mr-4">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                         </svg>
@@ -86,7 +86,7 @@
                 </div>
                 {{-- FIX: Tombol Tambah Rule - warna solid purple --}}
                 <a href="{{ route('admin.rule-basis.create') }}" 
-                   style="background: linear-gradient(to right, #8b5cf6, #7c3aed); color: white;"
+                   style="background: linear-gradient(to right, #22c55e, #16a34a); color: white;"
                    class="flex items-center px-5 py-3 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -101,7 +101,7 @@
             <form method="GET" action="{{ route('admin.rule-basis.index') }}" class="flex gap-4">
                 <div class="flex-1">
                     <label for="penyakit" class="block text-sm font-semibold text-gray-700 mb-2">Filter Penyakit</label>
-                    <select name="penyakit" id="penyakit" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    <select name="penyakit" id="penyakit" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <option value="">Semua Penyakit</option>
                         @foreach($penyakits as $penyakit)
                             <option value="{{ $penyakit->id_penyakit }}" {{ request('penyakit') == $penyakit->id_penyakit ? 'selected' : '' }}>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="flex-1">
                     <label for="gejala" class="block text-sm font-semibold text-gray-700 mb-2">Filter Gejala</label>
-                    <select name="gejala" id="gejala" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    <select name="gejala" id="gejala" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <option value="">Semua Gejala</option>
                         @foreach($gejalas as $gejala)
                             <option value="{{ $gejala->id_gejala }}" {{ request('gejala') == $gejala->id_gejala ? 'selected' : '' }}>
@@ -122,7 +122,7 @@
                     </select>
                 </div>
                 <div class="flex items-end gap-2">
-                    <button type="submit" style="background-color: #8b5cf6; color: white;" class="px-6 py-2 font-semibold rounded-xl hover:opacity-90 transition">
+                    <button type="submit" style="background-color: #22c55e; color: white;" class="px-6 py-2 font-semibold rounded-xl hover:opacity-90 transition">
                         Filter
                     </button>
                     @if(request('penyakit') || request('gejala'))

@@ -29,7 +29,7 @@
             <!-- Header -->
             <div class="p-6 border-b border-gray-200">
                 <div class="flex items-center">
-                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-3 mr-4">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-3 mr-4">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -49,7 +49,7 @@
                     <select 
                         name="id_penyakit" 
                         id="id_penyakit" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition @error('id_penyakit') border-red-500 @enderror"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition @error('id_penyakit') border-red-500 @enderror"
                         required
                     >
                         <option value="">-- Pilih Penyakit --</option>
@@ -72,7 +72,7 @@
                     <select 
                         name="id_gejala" 
                         id="id_gejala" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition @error('id_gejala') border-red-500 @enderror"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition @error('id_gejala') border-red-500 @enderror"
                         required
                     >
                         <option value="">-- Pilih Gejala --</option>
@@ -100,7 +100,7 @@
                         step="0.01"
                         min="0"
                         max="1"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition @error('mb') border-red-500 @enderror"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition @error('mb') border-red-500 @enderror"
                         placeholder="0.00 - 1.00"
                         required
                         oninput="calculateCF()"
@@ -124,7 +124,7 @@
                         step="0.01"
                         min="0"
                         max="1"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition @error('md') border-red-500 @enderror"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition @error('md') border-red-500 @enderror"
                         placeholder="0.00 - 1.00"
                         required
                         oninput="calculateCF()"
@@ -140,10 +140,10 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         CF (Certainty Factor) - Otomatis Dihitung
                     </label>
-                    <div class="px-4 py-3 bg-purple-50 border border-purple-200 rounded-xl">
+                    <div class="px-4 py-3 bg-green-50 border border-green-200 rounded-xl">
                         <div class="flex items-center justify-between">
                             <span class="text-sm text-gray-700">CF = MB - MD</span>
-                            <span id="cf_preview" class="text-2xl font-bold text-purple-600">0.00</span>
+                            <span id="cf_preview" class="text-2xl font-bold text-green-600">0.00</span>
                         </div>
                     </div>
                     <p class="mt-1 text-sm text-gray-500">Nilai CF akan otomatis dihitung dari MB - MD</p>
@@ -158,7 +158,7 @@
                         name="keterangan" 
                         id="keterangan" 
                         rows="3"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
                         placeholder="Catatan tambahan tentang rule ini..."
                     >{{ old('keterangan') }}</textarea>
                 </div>
@@ -173,7 +173,7 @@
                 </a>
                 {{-- FIX: Tombol Simpan pakai inline style agar warna tidak transparan --}}
                 <button type="submit" 
-                        style="background: linear-gradient(to right, #8b5cf6, #7c3aed); color: white;"
+                        style="background: linear-gradient(to right, #22c55e, #16a34a); color: white;"
                         class="px-6 py-3 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>

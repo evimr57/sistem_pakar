@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('page-title', '📊 Dashboard')
+@section('page-title', 'Dashboard')
 @section('page-subtitle', 'Overview statistik sistem pakar')
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="absolute right-0 top-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32"></div>
     <div class="absolute right-10 bottom-0 w-48 h-48 bg-white opacity-5 rounded-full -mb-24"></div>
     <div class="relative z-10">
-        <h1 class="text-3xl font-bold mb-2">Selamat Datang Kembali! 👋</h1>
+        <h1 class="text-3xl font-bold mb-2">Selamat Datang Kembali!</h1>
         <p class="text-green-100 text-lg">{{ Auth::user()->nama }}</p>
         <p class="text-green-50 mt-4">{{ now()->translatedFormat('l, d F Y') }}</p>
     </div>

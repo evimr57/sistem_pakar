@@ -27,14 +27,14 @@
         <div class="p-6 border-b border-gray-200">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-3 mr-4">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-3 mr-4">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                         </svg>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Daftar Penyakit & Hama Tanaman Kopi</h3>
                 </div>
-                <a href="{{ route('admin.penyakit.create') }}" class="flex items-center px-5 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-xl hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
+                <a href="{{ route('admin.penyakit.create') }}" class="flex items-center px-5 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
