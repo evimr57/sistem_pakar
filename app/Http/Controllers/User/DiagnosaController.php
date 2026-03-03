@@ -8,6 +8,7 @@ use App\Models\MasterPenyakit;
 use App\Models\RuleBasis;
 use App\Models\RiwayatDiagnosis;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DiagnosaController extends Controller
 {
@@ -97,14 +98,20 @@ class DiagnosaController extends Controller
     {
         $riwayat = RiwayatDiagnosis::with('penyakit')->findOrFail($id);
 
-        // Pastikan hanya pemilik yang bisa lihat
         if ($riwayat->user_id !== auth()->id()) {
             abort(403);
         }
 
         $gejalaInput = MasterGejala::whereIn('id_gejala', $riwayat->gejala_input)->get();
 
-        return view('user.diagnosa.hasil', compact('riwayat', 'gejalaInput'));
+        // Ambil relasi gejala-penyakit dari rule_basis
+        $relasiGejala = RuleBasis::whereIn('id_gejala', $riwayat->gejala_input)
+            ->whereIn('id_penyakit', collect($riwayat->hasil_diagnosa)->pluck('id_penyakit'))
+            ->with(['penyakit', 'gejala'])
+            ->get()
+            ->groupBy('id_penyakit');
+
+        return view('user.diagnosa.hasil', compact('riwayat', 'gejalaInput', 'relasiGejala'));
     }
 
     public function riwayat()
@@ -115,5 +122,39 @@ class DiagnosaController extends Controller
             ->paginate(10);
 
         return view('user.diagnosa.riwayat', compact('riwayats'));
+    }
+
+    public function destroy($id)
+    {
+        $riwayat = RiwayatDiagnosis::findOrFail($id);
+        
+        if ($riwayat->user_id !== auth()->id()) {
+            abort(403);
+        }
+        
+        $riwayat->delete();
+        
+        return redirect()->route('user.diagnosa.riwayat')
+            ->with('success', 'Riwayat diagnosa berhasil dihapus!');
+    }
+
+    public function downloadPdf($id)
+    {
+        $riwayat = RiwayatDiagnosis::with('penyakit')->findOrFail($id);
+
+        if ($riwayat->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $gejalaInput = MasterGejala::whereIn('id_gejala', $riwayat->gejala_input)->get();
+
+        $relasiGejala = RuleBasis::whereIn('id_gejala', $riwayat->gejala_input)
+            ->whereIn('id_penyakit', collect($riwayat->hasil_diagnosa)->pluck('id_penyakit'))
+            ->get()
+            ->groupBy('id_penyakit');
+
+        $pdf = Pdf::loadView('user.diagnosa.pdf', compact('riwayat', 'gejalaInput', 'relasiGejala'));
+
+        return $pdf->download('hasil-diagnosa-' . $riwayat->id_diagnosis . '.pdf');
     }
 }

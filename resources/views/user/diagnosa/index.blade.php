@@ -1,6 +1,6 @@
 @extends('layouts.user-app')
 
-@section('page-title', '🔍 Diagnosa Penyakit')
+@section('page-title', 'Diagnosa Penyakit')
 @section('page-subtitle', 'Pilih gejala yang dialami tanaman kopi kamu')
 
 @section('content')
@@ -22,8 +22,8 @@
         <!-- Daftar Gejala -->
         <div class="lg:col-span-2">
             <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <div class="flex items-center">
+                <div class="mb-6">
+                    <div class="flex items-center mb-4">
                         <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-3 mr-4">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
@@ -35,8 +35,8 @@
                         </div>
                     </div>
                     <!-- Search -->
-                    <input type="text" id="search-gejala" placeholder="🔍 Cari gejala..."
-                        class="px-4 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent w-48">
+                    <input type="text" id="search-gejala" placeholder="🔍 Cari gejala yang dialami tanaman kopi kamu..."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent">
                 </div>
 
                 <!-- Gejala List -->
@@ -74,7 +74,7 @@
 
             <!-- Gejala Terpilih -->
             <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-28">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">✅ Gejala Terpilih</h3>
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Gejala Terpilih</h3>
 
                 <div id="selected-count" class="text-3xl font-bold text-green-600 mb-1">0</div>
                 <p class="text-sm text-gray-500 mb-4">gejala dipilih</p>
@@ -90,7 +90,7 @@
 
                 <button type="submit"
                     class="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 transition shadow-lg text-sm">
-                    🔍 Diagnosa Sekarang
+                    Diagnosa Sekarang
                 </button>
 
                 <!-- Info -->

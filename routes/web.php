@@ -38,6 +38,8 @@ Route::middleware(['auth', App\Http\Middleware\IsUser::class])
         Route::post('/diagnosa', [DiagnosaController::class, 'proses'])->name('diagnosa.proses');
         Route::get('/diagnosa/hasil/{id}', [DiagnosaController::class, 'hasil'])->name('diagnosa.hasil');
         Route::get('/diagnosa/riwayat', [DiagnosaController::class, 'riwayat'])->name('diagnosa.riwayat');
+        Route::get('/diagnosa/riwayat/{id}/pdf', [DiagnosaController::class, 'downloadPdf'])->name('riwayat.pdf');
+        Route::delete('/diagnosa/{id}', [DiagnosaController::class, 'destroy'])->name('diagnosa.destroy');
         Route::get('/artikel/budidaya', [ArtikelUserController::class, 'budidaya'])->name('artikel.budidaya');
         Route::get('/artikel/budidaya/{slug}', [ArtikelUserController::class, 'detailBudidaya'])->name('artikel.budidaya.detail');
         Route::get('/artikel/hama-penyakit', [ArtikelUserController::class, 'hamaPenyakit'])->name('artikel.hama-penyakit');
