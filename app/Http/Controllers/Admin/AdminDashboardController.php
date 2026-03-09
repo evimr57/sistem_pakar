@@ -33,7 +33,7 @@ class AdminDashboardController extends Controller
         $chartPenyakit = [
             'labels' => $penyakitTerbanyak->map(function($item) {
                 // Cari nama penyakit berdasarkan kode
-                $penyakit = MasterPenyakit::where('kode_penyakit', $item->penyakit_final)->first();
+                $penyakit = MasterPenyakit::where('id_penyakit', $item->penyakit_final)->first();
                 return $penyakit ? $penyakit->nama_penyakit : $item->penyakit_final;
             })->toArray(),
             'data' => $penyakitTerbanyak->pluck('total')->toArray(),
@@ -77,4 +77,5 @@ class AdminDashboardController extends Controller
             'chartDiagnosa'
         ));
     }
+
 }

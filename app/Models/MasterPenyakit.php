@@ -11,6 +11,11 @@ class MasterPenyakit extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public function getRouteKeyName()
+    {
+        return 'id_penyakit';
+    }
+
     protected $fillable = [
         'id_penyakit',
         'nama_penyakit',

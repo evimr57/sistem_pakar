@@ -29,7 +29,7 @@
                 <!-- Konten -->
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Konten <span class="text-red-500">*</span></label>
-                    <textarea name="konten" rows="10"
+                    <textarea name="konten"  rows="10"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent @error('konten') border-red-500 @enderror">{{ old('konten', $artikelBudidaya->konten) }}</textarea>
                     @error('konten') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
