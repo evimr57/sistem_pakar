@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\InformasiBudidaya;
+use App\Models\BudidayaSub;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -25,12 +26,15 @@ class ArtikelBudidayaController extends Controller
         $validated = $request->validate([
             'judul'             => 'required|string|max:200',
             'deskripsi_singkat' => 'nullable|string',
-            'konten'            => 'required|string',
+            'konten'            => 'nullable|string',
             'gambar_utama'      => 'nullable|image|max:2048',
             'galeri_gambar.*'   => 'nullable|image|max:2048',
             'file_pdf'          => 'nullable|mimes:pdf|max:5120',
             'tags'              => 'nullable|string',
             'is_published'      => 'boolean',
+            'sub_judul.*'       => 'nullable|string|max:200',
+            'sub_konten.*'      => 'nullable|string',
+            'sub_gambar.*'      => 'nullable|image|max:2048',
         ]);
 
         $validated['slug'] = Str::slug($request->judul);
@@ -45,45 +49,68 @@ class ArtikelBudidayaController extends Controller
             $validated['file_pdf'] = $request->file('file_pdf')->store('budidaya/pdf', 'public');
         }
 
-        // Handle galeri gambar
         if ($request->hasFile('galeri_gambar')) {
             $galeri = [];
             foreach ($request->file('galeri_gambar') as $foto) {
                 $galeri[] = $foto->store('budidaya/galeri', 'public');
             }
-            $validated['galeri_gambar'] = $galeri; // otomatis di-cast ke JSON oleh model
+            $validated['galeri_gambar'] = $galeri;
         }
 
-            // Handle tags
         $tagsDecoded = json_decode($request->tags, true);
         $validated['tags'] = (!empty($tagsDecoded)) ? $tagsDecoded : null;
 
         if ($validated['is_published']) {
             $validated['published_at'] = now();
         }
-    
-        InformasiBudidaya::create($validated);
+
+        $artikel = InformasiBudidaya::create($validated);
+
+        // Handle sub-bab
+        if ($request->has('sub_judul')) {
+            foreach ($request->sub_judul as $index => $judul) {
+                if (!empty($judul)) {
+                    $subData = [
+                        'id_artikel' => $artikel->id,
+                        'judul_sub'  => $judul,
+                        'konten'     => $request->sub_konten[$index] ?? null,
+                        'urutan'     => $index + 1,
+                    ];
+
+                    if ($request->hasFile("sub_gambar.$index")) {
+                        $path = $request->file("sub_gambar.$index")->store('budidaya/sub', 'public');
+                        $subData['gambar'] = $path;
+                    }
+
+                    BudidayaSub::create($subData);
+                }
+            }
+        }
 
         return redirect()->route('admin.artikel-budidaya.index')
             ->with('success', 'Artikel budidaya berhasil ditambahkan!');
-}
+    }
 
     public function edit(InformasiBudidaya $artikelBudidaya)
     {
+        $artikelBudidaya->load('subBab');
         return view('admin.artikel-budidaya.edit', compact('artikelBudidaya'));
     }
 
     public function update(Request $request, InformasiBudidaya $artikelBudidaya)
     {
         $validated = $request->validate([
-            'judul'            => 'required|string|max:200',
-            'deskripsi_singkat'=> 'nullable|string',
-            'konten'           => 'required|string',
-            'gambar_utama'     => 'nullable|image|max:2048',
-            'galeri_gambar.*'  => 'nullable|image|max:2048',
-            'file_pdf'         => 'nullable|mimes:pdf|max:5120',
-            'tags'             => 'nullable|string',
-            'is_published'     => 'boolean',
+            'judul'             => 'required|string|max:200',
+            'deskripsi_singkat' => 'nullable|string',
+            'konten'            => 'nullable|string',
+            'gambar_utama'      => 'nullable|image|max:2048',
+            'galeri_gambar.*'   => 'nullable|image|max:2048',
+            'file_pdf'          => 'nullable|mimes:pdf|max:5120',
+            'tags'              => 'nullable|string',
+            'is_published'      => 'boolean',
+            'sub_judul.*'       => 'nullable|string|max:200',
+            'sub_konten.*'      => 'nullable|string',
+            'sub_gambar.*'      => 'nullable|image|max:2048',
         ]);
 
         $validated['slug'] = Str::slug($request->judul);
@@ -97,7 +124,6 @@ class ArtikelBudidayaController extends Controller
             $validated['file_pdf'] = $request->file('file_pdf')->store('budidaya/pdf', 'public');
         }
 
-        // Handle galeri gambar
         if ($request->hasFile('galeri_gambar')) {
             $galeri = [];
             foreach ($request->file('galeri_gambar') as $foto) {
@@ -106,7 +132,6 @@ class ArtikelBudidayaController extends Controller
             $validated['galeri_gambar'] = $galeri;
         }
 
-        // Handle tags
         $tagsDecoded = json_decode($request->tags, true);
         $validated['tags'] = (!empty($tagsDecoded)) ? $tagsDecoded : null;
 
@@ -115,6 +140,29 @@ class ArtikelBudidayaController extends Controller
         }
 
         $artikelBudidaya->update($validated);
+
+        // Hapus sub-bab lama & simpan yang baru
+        $artikelBudidaya->subBab()->delete();
+
+        if ($request->has('sub_judul')) {
+            foreach ($request->sub_judul as $index => $judul) {
+                if (!empty($judul)) {
+                    $subData = [
+                        'id_artikel' => $artikelBudidaya->id,
+                        'judul_sub'  => $judul,
+                        'konten'     => $request->sub_konten[$index] ?? null,
+                        'urutan'     => $index + 1,
+                    ];
+
+                    if ($request->hasFile("sub_gambar.$index")) {
+                        $path = $request->file("sub_gambar.$index")->store('budidaya/sub', 'public');
+                        $subData['gambar'] = $path;
+                    }
+
+                    BudidayaSub::create($subData);
+                }
+            }
+        }
 
         return redirect()->route('admin.artikel-budidaya.index')
             ->with('success', 'Artikel budidaya berhasil diupdate!');

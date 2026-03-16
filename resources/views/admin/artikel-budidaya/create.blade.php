@@ -12,10 +12,10 @@
             <div class="space-y-6">
                 <!-- Judul -->
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Judul <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Judul Bab <span class="text-red-500">*</span></label>
                     <input type="text" name="judul" value="{{ old('judul') }}"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent @error('judul') border-red-500 @enderror"
-                        placeholder="Masukkan judul artikel...">
+                        placeholder="Contoh: Persiapan Lahan, Penanaman, dll...">
                     @error('judul') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
@@ -24,22 +24,13 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">Deskripsi Singkat</label>
                     <textarea name="deskripsi_singkat" rows="3"
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        placeholder="Ringkasan singkat artikel...">{{ old('deskripsi_singkat') }}</textarea>
-                </div>
-
-                <!-- Konten -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Konten <span class="text-red-500">*</span></label>
-                    <textarea name="konten" rows="10"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent @error('konten') border-red-500 @enderror"
-                        placeholder="Tulis konten artikel di sini...">{{ old('konten') }}</textarea>
-                    @error('konten') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        placeholder="Ringkasan singkat tentang bab ini...">{{ old('deskripsi_singkat') }}</textarea>
                 </div>
 
                 <!-- Gambar Utama & PDF -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Gambar Utama</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Gambar Cover</label>
                         <input type="file" name="gambar_utama" accept="image/*"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500">
                         <p class="text-xs text-gray-400 mt-1">Format: JPG, PNG. Maks 2MB</p>
@@ -55,8 +46,7 @@
                 <!-- Tags -->
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Tags</label>
-                    <div id="tags-container" class="w-full px-4 py-3 border border-gray-300 rounded-xl flex flex-wrap gap-2 min-h-[50px]">
-                    </div>
+                    <div id="tags-container" class="w-full px-4 py-3 border border-gray-300 rounded-xl flex flex-wrap gap-2 min-h-[50px]"></div>
                     <input type="text" id="tags-input"
                         class="w-full mt-2 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500"
                         placeholder="Ketik tag lalu tekan Enter...">
@@ -64,12 +54,26 @@
                     <input type="hidden" name="tags" id="tags-hidden" value="[]">
                 </div>
 
-                <!-- Galeri Gambar -->
+                <!-- Sub-bab -->
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Galeri Gambar</label>
-                    <input type="file" name="galeri_gambar[]" accept="image/*" multiple
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500">
-                    <p class="text-xs text-gray-400 mt-1">Bisa pilih beberapa foto sekaligus. Format: JPG, PNG. Maks 2MB per foto</p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700">Sub-bab</label>
+                            <p class="text-xs text-gray-400 mt-1">Tambahkan sub-bab untuk artikel ini</p>
+                        </div>
+                        <button type="button" onclick="tambahSub()"
+                            class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition">
+                            + Tambah Sub-bab
+                        </button>
+                    </div>
+
+                    <div id="sub-container" class="space-y-4">
+                        <!-- Sub-bab items akan ditambahkan di sini -->
+                    </div>
+
+                    <div id="empty-sub" class="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                        <p class="text-gray-400 text-sm">Belum ada sub-bab. Klik tombol di atas untuk menambahkan.</p>
+                    </div>
                 </div>
 
                 <!-- Status Publish -->
@@ -96,6 +100,53 @@
 
 @push('scripts')
 <script>
+    let subCount = 0;
+
+    function tambahSub() {
+        const container = document.getElementById('sub-container');
+        const empty = document.getElementById('empty-sub');
+        empty.classList.add('hidden');
+
+        const index = subCount++;
+        const div = document.createElement('div');
+        div.className = 'sub-item bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4';
+        div.id = `sub-${index}`;
+        div.innerHTML = `
+            <div class="flex items-center justify-between">
+                <h4 class="font-bold text-gray-700 text-sm">Sub-bab ${index + 1}</h4>
+                <button type="button" onclick="hapusSub(${index})" class="text-red-400 hover:text-red-600 text-sm font-semibold">Hapus</button>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1">Judul Sub-bab <span class="text-red-500">*</span></label>
+                <input type="text" name="sub_judul[]"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500"
+                    placeholder="Contoh: Pemilihan Lahan">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1">Konten</label>
+                <textarea name="sub_konten[]" rows="5"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500"
+                    placeholder="Tulis isi sub-bab di sini..."></textarea>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1">Gambar (opsional)</label>
+                <input type="file" name="sub_gambar[${index}]" accept="image/*"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm">
+                <p class="text-xs text-gray-400 mt-1">Format: JPG, PNG. Maks 2MB</p>
+            </div>
+        `;
+        container.appendChild(div);
+    }
+
+    function hapusSub(index) {
+        const el = document.getElementById(`sub-${index}`);
+        if (el) el.remove();
+        if (document.querySelectorAll('.sub-item').length === 0) {
+            document.getElementById('empty-sub').classList.remove('hidden');
+        }
+    }
+
+    // Tags
     const tagsInput = document.getElementById('tags-input');
     const tagsContainer = document.getElementById('tags-container');
     const tagsHidden = document.getElementById('tags-hidden');
@@ -130,5 +181,4 @@
         }
     });
 </script>
-
 @endpush

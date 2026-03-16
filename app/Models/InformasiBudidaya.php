@@ -41,4 +41,9 @@ class InformasiBudidaya extends Model
     {
         return $query->where('is_published', true);
     }
+
+    public function subBab()
+    {
+        return $this->hasMany(BudidayaSub::class, 'id_artikel', 'id')->orderBy('urutan');
+    }
 }
