@@ -130,8 +130,8 @@
                 <a href="{{ route('admin.dashboard') }}"
                    class="menu-item flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'active bg-gray-700' : '' }} group">
                     <div class="flex items-center flex-1">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                         </div>
@@ -143,8 +143,8 @@
                 <a href="{{ route('admin.penyakit.index') }}"
                    class="menu-item flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.penyakit.*') ? 'active bg-gray-700' : '' }} group">
                     <div class="flex items-center flex-1">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-red-500/20 group-hover:bg-red-500/30 transition-colors">
+                            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                             </svg>
                         </div>
@@ -169,8 +169,8 @@
                  <a href="{{ route('admin.rule-basis.index') }}"
                    class="menu-item flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.rule-basis.*') ? 'active bg-gray-700' : '' }} group">
                     <div class="flex items-center flex-1">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
-                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-lg group-hover:bg-blue-500/30 transition-colors" style="background-color: rgba(139, 92, 246, 0.2);">
+                            <svg class="w-5 h-5" style="color: #a78bfa;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                             </svg>
                         </div>
@@ -185,8 +185,8 @@
                     <button @click="informasiOpen = !informasiOpen"
                         class="menu-item w-full flex items-center px-4 py-3 rounded-xl hover:bg-gray-700 {{ request()->routeIs('admin.artikel-budidaya.*') || request()->routeIs('admin.artikel-hama-penyakit.*') ? 'active bg-gray-700' : '' }} group">
                         <div class="flex items-center flex-1">
-                            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
-                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-500/20 group-hover:bg-yellow-500/30 transition-colors">
+                                <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                                 </svg>
                             </div>
