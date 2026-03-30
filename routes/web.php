@@ -87,4 +87,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Sending Email dari landing page
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
 require __DIR__.'/auth.php';

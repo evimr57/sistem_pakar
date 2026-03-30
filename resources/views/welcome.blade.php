@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pakar Kopi - Deteksi Penyakit Tanaman Kopi</title>
+    <title>CekKopi - Deteksi Penyakit Tanaman Kopi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
         }
         .brand-icon {
             width: 36px; height: 36px; border-radius: 10px;
-            background: linear-gradient(135deg, var(--green-600), var(--green-900));
+            background: white;
             display: flex; align-items: center; justify-content: center;
         }
         .brand-icon i { color: white; font-size: 18px; }
@@ -350,8 +350,10 @@
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <div class="brand-icon"><i class="bi bi-flower1"></i></div>
-            Sistem Pakar Kopi
+            <div class="brand-icon overflow-hidden p-1">
+                <img src="{{ asset('asset/images/v2_nobg.png') }}" style="width:100%;height:100%;object-fit:contain;" alt="Logo">
+            </div>
+            Cek Kopi
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
             <span class="navbar-toggler-icon"></span>
@@ -664,7 +666,7 @@
 <!-- KONTAK -->
 <section id="kontak">
     <div class="container">
-        <div class="row g-5 align-items-start">
+        <div class="row g-5 align-items-center">
             <div class="col-lg-5 reveal">
                 <span class="section-label">Hubungi Kami</span>
                 <h2 class="section-title">Ada Pertanyaan?</h2>
@@ -674,7 +676,7 @@
                         <div class="contact-icon-box"><i class="bi bi-envelope"></i></div>
                         <div>
                             <div class="contact-info-title">Email</div>
-                            <p class="contact-info-text">sistempakar.kopi@gmail.com</p>
+                            <p class="contact-info-text">cekkopiyuk@gmail.com</p>
                         </div>
                     </div>
                     <div class="d-flex align-items-start gap-3">
@@ -684,42 +686,44 @@
                             <p class="contact-info-text">Indonesia</p>
                         </div>
                     </div>
-                    <div class="d-flex align-items-start gap-3">
-                        <div class="contact-icon-box"><i class="bi bi-clock"></i></div>
-                        <div>
-                            <div class="contact-info-title">Jam Layanan</div>
-                            <p class="contact-info-text">Senin - Jumat, 08.00 - 17.00 WIB</p>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-7 reveal">
-                <div class="contact-form-card">
-                    <h5 style="font-size:18px;font-weight:700;color:var(--green-900);margin-bottom:24px;">Kirim Pesan</h5>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" placeholder="Masukkan nama kamu...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" placeholder="email@contoh.com">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Subjek</label>
-                            <input type="text" class="form-control" placeholder="Subjek pesan...">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Pesan</label>
-                            <textarea class="form-control" rows="4" placeholder="Tulis pesanmu di sini..."></textarea>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn-submit">Kirim Pesan</button>
+                    <div class="contact-form-card">
+                        <h5 style="font-size:18px;font-weight:700;color:var(--green-900);margin-bottom:24px;">Kirim Pesan</h5>
+                        <form action="{{ route('contact.send') }}" method="POST">
+                        @csrf
+                        @if(session('success'))
+                            <div style="padding:12px;background:#dcfce7;color:#166534;border-radius:8px;margin-bottom:16px;font-size:14px;font-weight:600;">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Lengkap</label>
+                                    <input type="text" name="nama" class="form-control" placeholder="Masukkan nama kamu...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control" placeholder="email@contoh.com">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Subjek</label>
+                                    <input type="text" name="subjek" class="form-control" placeholder="Subjek pesan...">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Pesan</label>
+                                    <textarea name="pesan" class="form-control" rows="4" placeholder="Tulis pesanmu di sini..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn-submit">Kirim Pesan</button>
+                                </div>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </section>
 
@@ -729,8 +733,10 @@
         <div class="row g-5">
             <div class="col-lg-4">
                 <div class="footer-brand">
-                    <div class="brand-icon"><i class="bi bi-flower1" style="color:white;font-size:18px;"></i></div>
-                    Sistem Pakar Kopi
+                    <div class="brand-icon overflow-hidden p-1">
+                        <img src="{{ asset('asset/images/v2_nobg.png') }}" style="width:100%;height:100%;object-fit:contain;" alt="Logo">
+                    </div>
+                    Cek Kopi
                 </div>
                 <p class="footer-desc">Platform cerdas untuk mendeteksi penyakit tanaman kopi dan memberikan solusi pengendalian yang tepat bagi petani Indonesia.</p>
             </div>
@@ -763,7 +769,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Sistem Pakar Kopi. Hak cipta dilindungi.</p>
+            <p>© 2026 Cek Kopi by Evi.  All rights reserved.</p>
         </div>
     </div>
 </footer>

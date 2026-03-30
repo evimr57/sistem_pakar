@@ -538,7 +538,7 @@
     <div class="space-y-5 sidebar-sticky">
 
         {{-- Info Artikel --}}
-        <div class="sidebar-card">
+        <!-- <div class="sidebar-card">
             <h3>
                 <span class="sidebar-icon" style="background:#e3f2fd">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#1565c0" viewBox="0 0 16 16">
@@ -560,7 +560,7 @@
             <div class="info-row">
                 <span class="lbl">Sub-bab</span>
                 <span class="val blue">{{ $artikel->subBab->count() }} sub-bab</span>
-            </div>
+            </div> -->
 
             @if($artikel->file_pdf)
                 <a href="{{ Storage::url($artikel->file_pdf) }}" target="_blank" class="btn-pdf">

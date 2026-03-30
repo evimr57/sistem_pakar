@@ -8,116 +8,113 @@
 @endpush
 
 @section('content')
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+<div style="background:white; border-radius:1.25rem; box-shadow:0 1px 4px rgba(0,0,0,0.07); border:1px solid #f0fdf4; overflow:hidden;">
 
-    {{-- Form Header --}}
-    <div class="px-8 py-5 border-b border-gray-100 flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
-            <i class="bi bi-pencil-square text-red-500 text-lg"></i>
+    {{-- Header --}}
+    <div style="padding:1.25rem 1.5rem; border-bottom:1px solid #f3f4f6; display:flex; align-items:center; gap:0.75rem;">
+        <div style="width:2.5rem; height:2.5rem; background:#dcfce7; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg style="width:1.25rem; height:1.25rem; color:#16a34a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
         </div>
         <div>
-            <h3 class="font-bold text-gray-800 text-base leading-tight">Edit Artikel</h3>
-            <p class="text-xs text-gray-400 mt-0.5">Perbarui informasi hama dan penyakit kopi</p>
+            <div style="font-size:0.9rem; font-weight:700; color:#111827;">Edit Artikel</div>
+            <div style="font-size:0.75rem; color:#9ca3af;">Perbarui informasi hama dan penyakit kopi</div>
         </div>
     </div>
 
-    <div class="p-8">
+    <div style="padding:2rem;">
         <form action="{{ route('admin.artikel-hama-penyakit.update', $artikelHamaPenyakit) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
-            <div class="space-y-7">
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
 
                 {{-- Judul & Jenis --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                            Judul <span class="text-red-500">*</span>
+                        <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">
+                            Judul <span style="color:#dc2626;">*</span>
                         </label>
                         <input type="text" name="judul" value="{{ old('judul', $artikelHamaPenyakit->judul) }}"
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition @error('judul') border-red-400 bg-red-50 @enderror"
+                            class="@error('judul') border-red-300 bg-red-50 @enderror"
+                            style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; box-sizing:border-box;"
                             placeholder="Judul artikel...">
                         @error('judul')
-                            <p class="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                                <i class="bi bi-exclamation-circle"></i> {{ $message }}
-                            </p>
+                            <p style="color:#dc2626; font-size:0.75rem; margin-top:0.375rem;">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                            Jenis <span class="text-red-500">*</span>
+                        <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">
+                            Jenis <span style="color:#dc2626;">*</span>
                         </label>
-                        <div class="relative">
-                            <select name="jenis" class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 focus:ring-2 focus:ring-red-400 focus:border-transparent appearance-none transition bg-white">
+                        <div style="position:relative;">
+                            <select name="jenis"
+                                style="width:100%; padding:0.75rem 2.5rem 0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; background:white; appearance:none; outline:none; box-sizing:border-box;">
                                 <option value="Hama" {{ old('jenis', $artikelHamaPenyakit->jenis) === 'Hama' ? 'selected' : '' }}>Hama</option>
                                 <option value="Penyakit" {{ old('jenis', $artikelHamaPenyakit->jenis) === 'Penyakit' ? 'selected' : '' }}>Penyakit</option>
                             </select>
-                            <i class="bi bi-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
+                            <svg style="position:absolute; right:0.875rem; top:50%; transform:translateY(-50%); width:1rem; height:1rem; color:#9ca3af; pointer-events:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
                         </div>
                     </div>
                 </div>
 
                 {{-- Deskripsi Singkat --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Deskripsi Singkat</label>
+                    <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Deskripsi Singkat</label>
                     <textarea name="deskripsi_singkat" rows="3"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-none"
+                        style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:none; box-sizing:border-box;"
                         placeholder="Ringkasan singkat artikel...">{{ old('deskripsi_singkat', $artikelHamaPenyakit->deskripsi_singkat) }}</textarea>
                 </div>
 
                 {{-- Konten --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                        Konten <span class="text-red-500">*</span>
+                    <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">
+                        Konten <span style="color:#dc2626;">*</span>
                     </label>
                     <textarea name="konten" rows="8"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-y @error('konten') border-red-400 bg-red-50 @enderror"
+                        class="@error('konten') border-red-300 bg-red-50 @enderror"
+                        style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:vertical; box-sizing:border-box;"
                         placeholder="Tulis konten artikel...">{{ old('konten', $artikelHamaPenyakit->konten) }}</textarea>
                     @error('konten')
-                        <p class="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                            <i class="bi bi-exclamation-circle"></i> {{ $message }}
-                        </p>
+                        <p style="color:#dc2626; font-size:0.75rem; margin-top:0.375rem;">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- Informasi Teknis --}}
-                <div class="border border-gray-100 rounded-2xl overflow-hidden">
-                    <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                        <i class="bi bi-clipboard2-pulse text-gray-500 text-base"></i>
-                        <h4 class="font-semibold text-gray-700 text-sm">Informasi Teknis</h4>
+                <div style="border:1px solid #e5e7eb; border-radius:1rem; overflow:hidden;">
+                    <div style="padding:0.875rem 1.25rem; background:#f9fafb; border-bottom:1px solid #f3f4f6; display:flex; align-items:center; gap:0.5rem;">
+                        <svg style="width:1rem; height:1rem; color:#6b7280;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span style="font-size:0.875rem; font-weight:600; color:#374151;">Informasi Teknis</span>
                     </div>
-                    <div class="p-6 space-y-5">
+                    <div style="padding:1.25rem; display:flex; flex-direction:column; gap:1.25rem;">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                                <i class="bi bi-eye text-gray-400 mr-1"></i>Gejala Visual
-                            </label>
+                            <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Gejala Visual</label>
                             <textarea name="gejala_visual" rows="3"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-none"
+                                style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:none; box-sizing:border-box;"
                                 placeholder="Deskripsikan gejala yang terlihat...">{{ old('gejala_visual', $artikelHamaPenyakit->gejala_visual) }}</textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                                <i class="bi bi-search text-gray-400 mr-1"></i>Cara Identifikasi
-                            </label>
+                            <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Cara Identifikasi</label>
                             <textarea name="cara_identifikasi" rows="3"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-none"
+                                style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:none; box-sizing:border-box;"
                                 placeholder="Cara mengidentifikasi...">{{ old('cara_identifikasi', $artikelHamaPenyakit->cara_identifikasi) }}</textarea>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                                    <i class="bi bi-shield-check text-gray-400 mr-1"></i>Pencegahan
-                                </label>
+                                <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Pencegahan</label>
                                 <textarea name="pencegahan" rows="4"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-none"
+                                    style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:none; box-sizing:border-box;"
                                     placeholder="Langkah pencegahan...">{{ old('pencegahan', $artikelHamaPenyakit->pencegahan) }}</textarea>
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                                    <i class="bi bi-tools text-gray-400 mr-1"></i>Pengendalian
-                                </label>
+                                <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Pengendalian</label>
                                 <textarea name="pengendalian" rows="4"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition resize-none"
+                                    style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; resize:none; box-sizing:border-box;"
                                     placeholder="Cara pengendalian...">{{ old('pengendalian', $artikelHamaPenyakit->pengendalian) }}</textarea>
                             </div>
                         </div>
@@ -125,106 +122,99 @@
                 </div>
 
                 {{-- Gambar & PDF --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                            <i class="bi bi-image text-gray-400 mr-1"></i>Gambar Utama
-                        </label>
+                        <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Gambar Utama</label>
                         @if($artikelHamaPenyakit->gambar_utama)
-                            <div class="mb-3 relative inline-block">
-                                <img src="{{ Storage::url($artikelHamaPenyakit->gambar_utama) }}"
-                                    class="w-32 h-24 object-cover rounded-xl border border-gray-200 shadow-sm">
-                                <span class="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Aktif</span>
-                            </div>
+                            <img src="{{ Storage::url($artikelHamaPenyakit->gambar_utama) }}"
+                                style="width:100%; height:8rem; object-fit:cover; border-radius:0.75rem; border:1px solid #e5e7eb; margin-bottom:0.5rem;">
                         @endif
                         <input type="file" name="gambar_utama" accept="image/*"
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100 transition">
-                        <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                            <i class="bi bi-info-circle"></i> Kosongkan jika tidak ingin mengubah
-                        </p>
+                            style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#6b7280; box-sizing:border-box;">
+                        <p style="font-size:0.7rem; color:#9ca3af; margin-top:0.375rem;">Kosongkan jika tidak ingin mengubah</p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                            <i class="bi bi-file-earmark-pdf text-gray-400 mr-1"></i>File PDF
-                        </label>
+                        <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">File PDF</label>
                         @if($artikelHamaPenyakit->file_pdf)
                             <a href="{{ Storage::url($artikelHamaPenyakit->file_pdf) }}" target="_blank"
-                                class="inline-flex items-center gap-1.5 text-xs text-red-500 font-medium hover:text-red-700 mb-3 border border-red-100 bg-red-50 px-3 py-1.5 rounded-lg transition">
-                                <i class="bi bi-file-earmark-pdf-fill"></i> Lihat PDF saat ini
-                                <i class="bi bi-box-arrow-up-right text-[10px]"></i>
+                                style="display:inline-flex; align-items:center; gap:0.375rem; font-size:0.75rem; color:#16a34a; text-decoration:none; margin-bottom:0.5rem; font-weight:600;">
+                                <svg style="width:0.875rem; height:0.875rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
+                                Lihat PDF saat ini
                             </a>
                         @endif
                         <input type="file" name="file_pdf" accept=".pdf"
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100 transition">
-                        <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                            <i class="bi bi-info-circle"></i> Kosongkan jika tidak ingin mengubah
-                        </p>
+                            style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#6b7280; box-sizing:border-box;">
+                        <p style="font-size:0.7rem; color:#9ca3af; margin-top:0.375rem;">Kosongkan jika tidak ingin mengubah</p>
                     </div>
                 </div>
 
                 {{-- Tags --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                        <i class="bi bi-tags text-gray-400 mr-1"></i>Tags
-                    </label>
+                    <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Tags</label>
                     <div id="tags-container"
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl flex flex-wrap gap-2 min-h-[50px] bg-gray-50/50 cursor-text"
+                        style="width:100%; padding:0.625rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; display:flex; flex-wrap:wrap; gap:0.5rem; min-height:3rem; background:#fafafa; cursor:text; box-sizing:border-box;"
                         onclick="document.getElementById('tags-input').focus()">
                     </div>
                     <input type="text" id="tags-input"
-                        class="w-full mt-2 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition"
+                        style="width:100%; margin-top:0.5rem; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#111827; outline:none; box-sizing:border-box;"
                         placeholder="Ketik tag lalu tekan Enter atau koma...">
-                    <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                        <i class="bi bi-keyboard"></i> Tekan Enter atau koma untuk menambah tag
-                    </p>
+                    <p style="font-size:0.7rem; color:#9ca3af; margin-top:0.375rem;">Tekan Enter atau koma untuk menambah tag</p>
                     <input type="hidden" name="tags" id="tags-hidden" value="[]">
                 </div>
 
                 {{-- Galeri Gambar --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                        <i class="bi bi-images text-gray-400 mr-1"></i>Galeri Gambar
-                    </label>
+                    <label style="display:block; font-size:0.7rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.5rem;">Galeri Gambar</label>
                     @if($artikelHamaPenyakit->galeri_gambar)
-                        <div class="flex flex-wrap gap-2 mb-3">
+                        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
                             @foreach($artikelHamaPenyakit->galeri_gambar as $foto)
                                 <img src="{{ Storage::url($foto) }}"
-                                    class="w-24 h-20 object-cover rounded-xl border border-gray-200 shadow-sm">
+                                    style="width:5rem; height:4rem; object-fit:cover; border-radius:0.75rem; border:1px solid #e5e7eb;">
                             @endforeach
                         </div>
                     @endif
                     <input type="file" name="galeri_gambar[]" accept="image/*" multiple
-                        class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100 transition">
-                    <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                        <i class="bi bi-exclamation-triangle"></i> Upload foto baru akan menggantikan galeri yang lama
-                    </p>
+                        style="width:100%; padding:0.75rem 1rem; border:1px solid #e5e7eb; border-radius:0.75rem; font-size:0.875rem; color:#6b7280; box-sizing:border-box;">
+                    <p style="font-size:0.7rem; color:#9ca3af; margin-top:0.375rem;">Upload foto baru akan menggantikan galeri yang lama</p>
                 </div>
 
                 {{-- Status Publish --}}
-                <div class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-gray-50/60">
-                    <label class="relative inline-flex items-center cursor-pointer">
+                <div style="display:flex; align-items:center; gap:0.75rem; padding:1rem; border:1px solid #e5e7eb; border-radius:0.75rem; background:#f9fafb;">
+                    <div style="position:relative; display:inline-flex; align-items:center; cursor:pointer; flex-shrink:0;" onclick="togglePublish('is_published', 'track_is_published', 'knob_is_published')">
                         <input type="checkbox" name="is_published" value="1" id="is_published"
                             {{ old('is_published', $artikelHamaPenyakit->is_published) ? 'checked' : '' }}
-                            class="sr-only peer">
-                        <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-red-500 peer-focus:ring-2 peer-focus:ring-red-300 transition-all after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5"></div>
-                    </label>
+                            style="position:absolute; opacity:0; width:0; height:0;">
+                        <div id="track_is_published"
+                            style="width:2.5rem; height:1.375rem; border-radius:9999px; transition:background 0.2s; background:{{ old('is_published', $artikelHamaPenyakit->is_published) ? '#16a34a' : '#d1d5db' }}; position:relative;">
+                            <div id="knob_is_published"
+                                style="position:absolute; top:0.1875rem; width:1rem; height:1rem; background:white; border-radius:9999px; box-shadow:0 1px 3px rgba(0,0,0,0.2); transition:left 0.2s; left:{{ old('is_published', $artikelHamaPenyakit->is_published) ? '1.25rem' : '0.1875rem' }};"></div>
+                        </div>
+                    </div>
                     <div>
-                        <label for="is_published" class="text-sm font-semibold text-gray-700 cursor-pointer">Publikasikan Artikel</label>
-                        <p class="text-xs text-gray-400">Artikel akan langsung tampil di halaman publik</p>
+                        <label for="is_published" style="font-size:0.875rem; font-weight:600; color:#374151; cursor:pointer;" onclick="togglePublish('is_published', 'track_is_published', 'knob_is_published')">Publikasikan Artikel</label>
+                        <p style="font-size:0.75rem; color:#9ca3af;">Artikel akan langsung tampil di halaman publik</p>
                     </div>
                 </div>
 
             </div>
 
             {{-- Action Buttons --}}
-            <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:2rem; padding-top:1.5rem; border-top:1px solid #f3f4f6;">
                 <a href="{{ route('admin.artikel-hama-penyakit.index') }}"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition">
-                    <i class="bi bi-arrow-left"></i> Batal
+                    style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.625rem 1.25rem; border:1px solid #e5e7eb; color:#6b7280; font-size:0.875rem; font-weight:600; border-radius:0.75rem; text-decoration:none; background:white;">
+                    <svg style="width:1rem; height:1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Batal
                 </a>
                 <button type="submit"
-                    class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-bold rounded-xl hover:from-red-600 hover:to-red-700 transition shadow-md shadow-red-100 active:scale-95">
-                    <i class="bi bi-check2-circle"></i> Update Artikel
+                    style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.625rem 1.5rem; background:#16a34a; color:white; font-size:0.875rem; font-weight:700; border-radius:0.75rem; border:none; cursor:pointer;">
+                    <svg style="width:1rem; height:1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Update Artikel
                 </button>
             </div>
         </form>
@@ -237,21 +227,16 @@
     const tagsInput = document.getElementById('tags-input');
     const tagsContainer = document.getElementById('tags-container');
     const tagsHidden = document.getElementById('tags-hidden');
-
-    // Load tags yang sudah ada
     let tags = {!! json_encode($artikelHamaPenyakit->tags ?? []) !!};
 
     function renderTags() {
         tagsContainer.innerHTML = '';
         tags.forEach((tag, index) => {
             tagsContainer.innerHTML += `
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-700 text-xs font-semibold rounded-lg border border-red-100">
-                    <i class="bi bi-tag-fill text-red-400 text-[10px]"></i>
+                <span style="display:inline-flex; align-items:center; gap:0.375rem; padding:0.25rem 0.625rem; background:#dcfce7; color:#15803d; font-size:0.75rem; font-weight:600; border-radius:0.5rem; border:1px solid #bbf7d0;">
                     ${tag}
                     <button type="button" onclick="removeTag(${index})"
-                        class="ml-0.5 text-red-300 hover:text-red-600 transition leading-none">
-                        <i class="bi bi-x-lg text-[10px]"></i>
-                    </button>
+                        style="color:#86efac; background:none; border:none; cursor:pointer; line-height:1; font-size:0.875rem;">&times;</button>
                 </span>`;
         });
         tagsHidden.value = JSON.stringify(tags);
@@ -266,15 +251,24 @@
         if (e.key === 'Enter' || e.key === ',') {
             e.preventDefault();
             const val = tagsInput.value.trim();
-            if (val) {
-                tags.push(val);
-                tagsInput.value = '';
-                renderTags();
-            }
+            if (val) { tags.push(val); tagsInput.value = ''; renderTags(); }
         }
     });
 
-    // Render tags awal
     renderTags();
+
+    function togglePublish(cbId, trackId, knobId) {
+        const cb = document.getElementById(cbId);
+        const track = document.getElementById(trackId);
+        const knob = document.getElementById(knobId);
+        cb.checked = !cb.checked;
+        if (cb.checked) {
+            track.style.background = '#16a34a';
+            knob.style.left = '1.25rem';
+        } else {
+            track.style.background = '#d1d5db';
+            knob.style.left = '0.1875rem';
+        }
+    }
 </script>
 @endpush

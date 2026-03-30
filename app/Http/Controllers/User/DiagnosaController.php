@@ -24,33 +24,61 @@ class DiagnosaController extends Controller
             'gejala' => 'required|array|min:1',
         ], [
             'gejala.required' => 'Pilih minimal 1 gejala!',
-            'gejala.min' => 'Pilih minimal 1 gejala!',
+            'gejala.min'      => 'Pilih minimal 1 gejala!',
         ]);
 
-        $gejalaInput = $request->gejala; // array of id_gejala
+        $gejalaInput = $request->gejala;
 
         // Ambil semua rule yang relevan
         $rules = RuleBasis::whereIn('id_gejala', $gejalaInput)->get();
 
-        // Hitung MB dan MD per penyakit dulu
-        $mbPenyakit = [];
-        $mdPenyakit = [];
-
+        // --- SKENARIO B (Rumus 5 & 7 - MAX) ---
+        // Kalau 1 gejala ada di beberapa penyakit,
+        // ambil nilai MB dan MD tertinggi (Max) per gejala per penyakit
+        // Caranya: group rule per id_gejala, kalau ada duplikat ambil Max MB dan Max MD
+        $rulesTerproses = [];
         foreach ($rules as $rule) {
+            $idGejala   = $rule->id_gejala;
             $idPenyakit = $rule->id_penyakit;
+            $key        = $idPenyakit . '_' . $idGejala;
 
-            if (!isset($mbPenyakit[$idPenyakit])) {
-                // Gejala pertama
-                $mbPenyakit[$idPenyakit] = $rule->mb;
-                $mdPenyakit[$idPenyakit] = $rule->md;
+            if (!isset($rulesTerproses[$key])) {
+                $rulesTerproses[$key] = [
+                    'id_penyakit' => $idPenyakit,
+                    'id_gejala'   => $idGejala,
+                    'mb'          => $rule->mb,
+                    'md'          => $rule->md,
+                ];
             } else {
-                // Kombinasi gejala berikutnya (rumus 2 & 3)
-                $mbPenyakit[$idPenyakit] = $mbPenyakit[$idPenyakit] * $rule->mb;
-                $mdPenyakit[$idPenyakit] = $mdPenyakit[$idPenyakit] + $rule->md * (1 - $mdPenyakit[$idPenyakit]);
+                // Rumus 5 & 7: Pakai Max untuk MB dan MD
+                $rulesTerproses[$key]['mb'] = max($rulesTerproses[$key]['mb'], $rule->mb);
+                $rulesTerproses[$key]['md'] = max($rulesTerproses[$key]['md'], $rule->md);
             }
         }
 
-        // Hitung CF = MB - MD
+        // --- SKENARIO A (Rumus 2 & 3) ---
+        // Kombinasi banyak gejala untuk 1 penyakit
+        // MB[h, e1^e2] = MB[h,e1] + MB[h,e2] * (1 - MB[h,e1])
+        // MD[h, e1^e2] = MD[h,e1] + MD[h,e2] * (1 - MD[h,e1])
+        $mbPenyakit = [];
+        $mdPenyakit = [];
+
+        foreach ($rulesTerproses as $rule) {
+            $idPenyakit = $rule['id_penyakit'];
+
+            if (!isset($mbPenyakit[$idPenyakit])) {
+                // Gejala pertama
+                $mbPenyakit[$idPenyakit] = $rule['mb'];
+                $mdPenyakit[$idPenyakit] = $rule['md'];
+            } else {
+                // Kombinasi gejala berikutnya (Rumus 2 & 3)
+                $mbPenyakit[$idPenyakit] = $mbPenyakit[$idPenyakit] + $rule['mb'] * (1 - $mbPenyakit[$idPenyakit]);
+                $mdPenyakit[$idPenyakit] = $mdPenyakit[$idPenyakit] + $rule['md'] * (1 - $mdPenyakit[$idPenyakit]);
+            }
+        }
+
+        // --- RUMUS DASAR (Rumus 1) ---
+        // CF = MB - MD
         $cfPenyakit = [];
         foreach ($mbPenyakit as $idPenyakit => $mb) {
             $cfPenyakit[$idPenyakit] = $mb - $mdPenyakit[$idPenyakit];
@@ -70,25 +98,25 @@ class DiagnosaController extends Controller
             $penyakit = MasterPenyakit::find($idPenyakit);
             if ($penyakit) {
                 $hasilDiagnosa[] = [
-                    'id_penyakit' => $idPenyakit,
+                    'id_penyakit'   => $idPenyakit,
                     'nama_penyakit' => $penyakit->nama_penyakit,
-                    'cf' => round($cf, 2),
-                    'persentase' => round($cf * 100, 1),
+                    'cf'            => round($cf, 4),
+                    'persentase'    => round($cf * 100, 2),
                 ];
             }
         }
 
         $penyakitFinal = $hasilDiagnosa[0]['id_penyakit'];
-        $cfTertinggi = $hasilDiagnosa[0]['cf'];
+        $cfTertinggi   = $hasilDiagnosa[0]['cf'];
 
         // Simpan ke riwayat
         $riwayat = RiwayatDiagnosis::create([
-            'user_id'       => auth()->id(),
-            'tanggal'       => now(),
-            'gejala_input'  => $gejalaInput,
-            'hasil_diagnosa'=> $hasilDiagnosa,
-            'cf_tertinggi'  => $cfTertinggi,
-            'penyakit_final'=> $penyakitFinal,
+            'user_id'        => auth()->id(),
+            'tanggal'        => now(),
+            'gejala_input'   => $gejalaInput,
+            'hasil_diagnosa' => $hasilDiagnosa,
+            'cf_tertinggi'   => $cfTertinggi,
+            'penyakit_final' => $penyakitFinal,
         ]);
 
         return redirect()->route('user.diagnosa.hasil', $riwayat->id_diagnosis);
@@ -104,7 +132,6 @@ class DiagnosaController extends Controller
 
         $gejalaInput = MasterGejala::whereIn('id_gejala', $riwayat->gejala_input)->get();
 
-        // Ambil relasi gejala-penyakit dari rule_basis
         $relasiGejala = RuleBasis::whereIn('id_gejala', $riwayat->gejala_input)
             ->whereIn('id_penyakit', collect($riwayat->hasil_diagnosa)->pluck('id_penyakit'))
             ->with(['penyakit', 'gejala'])
@@ -127,13 +154,13 @@ class DiagnosaController extends Controller
     public function destroy($id)
     {
         $riwayat = RiwayatDiagnosis::findOrFail($id);
-        
+
         if ($riwayat->user_id !== auth()->id()) {
             abort(403);
         }
-        
+
         $riwayat->delete();
-        
+
         return redirect()->route('user.diagnosa.riwayat')
             ->with('success', 'Riwayat diagnosa berhasil dihapus!');
     }

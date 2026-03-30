@@ -69,23 +69,19 @@
                 <div class="flex items-center justify-between">
                     <div x-show="sidebarOpen" class="flex items-center space-x-3">
                         <div class="logo-float">
-                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
-                                <svg class="w-6 h-6 text-white crown-glow" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M2 19l2-8 4 4 4-8 4 8 4-4 2 8H2z"/>
-                                </svg>
+                            <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg flex-shrink-0">
+                                <img src="{{ asset('asset/images/ori_nobg.png') }}" class="w-full h-full object-cover" alt="Logo">
                             </div>
                         </div>
                         <div>
-                            <h1 class="text-lg font-bold bg-gradient-to-r from-yellow-400 to-amber-200 bg-clip-text text-transparent">Coffee Expert</h1>
-                            <p class="text-xs text-purple-300/70">Super Admin Panel</p>
+                            <h1 class="text-lg font-bold bg-gradient-to-r from-green-400 to-green-200 bg-clip-text text-transparent">Cek Kopi</h1>
+                            <p class="text-xs text-purple-300/70">Super Admin</p>
                         </div>
                     </div>
                     <!-- Collapsed logo (when sidebar is closed) -->
                     <div x-show="!sidebarOpen" class="mx-auto logo-float">
-                        <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white crown-glow" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M2 19l2-8 4 4 4-8 4 8 4-4 2 8H2z"/>
-                            </svg>
+                        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg flex-shrink-0">
+                                <img src="{{ asset('asset/images/ori_nobg.png') }}" class="w-full h-full object-cover" alt="Logo">
                         </div>
                     </div>
                     <button x-show="sidebarOpen" @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg hover:bg-green-800/30 transition-colors">
@@ -106,10 +102,10 @@
 
                 <!-- Dashboard -->
                 <a href="{{ route('super-admin.dashboard') }}"
-                   class="flex items-center px-4 py-3 rounded-xl hover:bg-green-800/30 {{ request()->routeIs('super-admin.dashboard') ? 'bg-green-800/40 ring-1 ring-green-500/30' : '' }} group">
+                   class="flex items-center px-4 py-3 rounded-xl hover:bg-green-800/30 {{ request()->routeIs('super-admin.dashboard') ? 'bg-green-700/50 ring-1 ring-green-400/60' : '' }} group">
                     <div class="flex items-center flex-1">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
-                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                         </div>
@@ -145,13 +141,8 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800">@yield('page-title', 'Dashboard')</h2>
-                            <p class="text-sm text-gray-500 mt-1">@yield('page-subtitle', 'Sistem Pakar Diagnosa Penyakit Tanaman Kopi')</p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <!-- Super Admin Badge -->
-                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-amber-500 text-white shadow badge-pulse">
-                                ★ SUPER ADMIN
-                            </span>
                             <!-- Profile -->
                             <a href="{{ route('profile.edit') }}" class="flex items-center space-x-3 px-3 py-2 rounded-xl bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white font-bold shadow-lg">

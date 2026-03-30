@@ -25,7 +25,6 @@
                             <p class="text-green-100 text-lg mt-1">{{ Auth::user()->nama }}</p>
                         </div>
                     </div>
-                    <p class="text-green-50 text-base">Sistem Pakar Diagnosa Tanaman Kopi</p>
                     <div class="mt-4 flex items-center space-x-4">
                         <div class="flex items-center bg-white bg-opacity-20 rounded-full px-4 py-2">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
