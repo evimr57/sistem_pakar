@@ -7,6 +7,8 @@
 
         <title>{{ config('app.name', 'CekKopi') }}</title>
 
+        <link rel="icon" href="{{ asset('asset/images/v2_nobg.png') }}?v=2" type="image/png">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} | @yield('page-title', 'Dashboard')</title>
+    <link rel="icon" href="{{ asset('asset/images/v2_nobg.png') }}?v=2" type="image/png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

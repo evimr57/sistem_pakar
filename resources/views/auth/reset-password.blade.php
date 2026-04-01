@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Sistem Pakar Tanaman Kopi</title>
+    <title>CekKopi - Reset Password</title>
+    <link rel="icon" href="{{ asset('asset/images/v2_nobg.png') }}?v=2" type="image/png">
     <style>
         * {
             margin: 0;
