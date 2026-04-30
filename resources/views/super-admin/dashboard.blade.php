@@ -3,239 +3,272 @@
 @section('page-title', 'Dashboard')
 @section('page-subtitle', 'Selamat datang kembali, ' . Auth::user()->nama)
 
-@section('content')
-    <div class="max-w-7xl mx-auto space-y-6">
-        
-        <!-- Welcome Card with Gradient -->
-        <div class="bg-gradient-to-r from-green-600 via-green-700 to-green-800 overflow-hidden shadow-xl sm:rounded-2xl transform hover:scale-[1.01] transition duration-300">
-            <div class="p-8 text-white relative overflow-hidden">
-                <!-- Decorative circles -->
-                <div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
-                <div class="absolute -right-5 -bottom-5 w-32 h-32 bg-white opacity-10 rounded-full"></div>
-                
-                <div class="relative z-10">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-white bg-opacity-20 rounded-full p-3 mr-4">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-3xl font-bold">Selamat Datang Kembali!</h3>
-                            <p class="text-green-100 text-lg mt-1">{{ Auth::user()->nama }}</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center space-x-4">
-                        <div class="flex items-center bg-white bg-opacity-20 rounded-full px-4 py-2">
-                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-sm" id="realtime-clock"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+@push('styles')
+<style>
+    .dash-root { font-family: 'Sora', sans-serif; }
 
-        <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Total Users -->
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-2xl transform hover:scale-105 transition duration-300 hover:shadow-2xl">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Total Users</p>
-                            <h3 class="text-4xl font-bold text-gray-800 mt-2">{{ \App\Models\User::count() }}</h3>
-                            <p class="text-xs text-gray-500 mt-2">Semua pengguna terdaftar</p>
-                        </div>
-                        <div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-4 shadow-lg">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center text-green-600">
-                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-xs font-semibold">Aktif</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Super Admins -->
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-2xl transform hover:scale-105 transition duration-300 hover:shadow-2xl">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Super Admins</p>
-                            <h3 class="text-4xl font-bold text-gray-800 mt-2">{{ \App\Models\User::where('role', 'super_admin')->count() }}</h3>
-                            <p class="text-xs text-gray-500 mt-2">Administrator tertinggi</p>
-                        </div>
-                        <div class="bg-gradient-to-br from-red-400 to-red-600 rounded-2xl p-4 shadow-lg">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center text-red-600">
-                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-xs font-semibold">Full Access</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admins -->
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-2xl transform hover:scale-105 transition duration-300 hover:shadow-2xl">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Admins</p>
-                            <h3 class="text-4xl font-bold text-gray-800 mt-2">{{ \App\Models\User::where('role', 'admin')->count() }}</h3>
-                            <p class="text-xs text-gray-500 mt-2">Administrator biasa</p>
-                        </div>
-                        <div class="bg-gradient-to-br from-green-400 to-green-600 rounded-2xl p-4 shadow-lg">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center text-green-600">
-                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span class="text-xs font-semibold">Verified</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Regular Users -->
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-2xl transform hover:scale-105 transition duration-300 hover:shadow-2xl">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Regular Users</p>
-                            <h3 class="text-4xl font-bold text-gray-800 mt-2">{{ \App\Models\User::where('role', 'user')->count() }}</h3>
-                            <p class="text-xs text-gray-500 mt-2">Pengguna biasa</p>
-                        </div>
-                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl p-4 shadow-lg">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center text-purple-600">
-                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                        </svg>
-                        <span class="text-xs font-semibold">Community</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Users Table -->
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl">
-            <div class="p-8">
-                <div class="flex justify-between items-center mb-6">
-                    <div class="flex items-center">
-                        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-3 mr-4">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-800">Recent Users</h3>
-                    </div>
-                    <a href="{{ route('super-admin.users.index') }}" class="flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-semibold rounded-xl hover:from-green-600 hover:to-green-700 transition-all shadow-lg hover:shadow-xl">
-                        View All
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-                <div class="overflow-x-auto rounded-xl border border-green-100">
-                    <table class="min-w-full divide-y divide-green-100">
-                        <thead class="bg-green-50">
-                            <tr>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-green-600 uppercase tracking-wider">Username</th>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-green-600 uppercase tracking-wider">Nama</th>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-green-600 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-green-600 uppercase tracking-wider">Role</th>
-                                <th class="px-6 py-4 text-left text-xs font-bold text-green-600 uppercase tracking-wider">Registered</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-green-50">
-                            @forelse(\App\Models\User::latest()->take(5)->get() as $user)
-                            <tr class="hover:bg-green-50 transition-colors">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-bold">
-                                            {{ strtoupper(substr($user->username, 0, 1)) }}
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-semibold text-gray-900">{{ $user->username }}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900 font-medium">{{ $user->nama }}</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-600">{{ $user->email }}</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($user->role === 'super_admin')
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md">
-                                            ⭐ Super Admin
-                                        </span>
-                                    @elseif($user->role === 'admin')
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md">
-                                            👤 Admin
-                                        </span>
-                                    @else
-                                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-md">
-                                            👥 User
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                    <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                        </svg>
-                                        {{ $user->created_at->diffForHumans() }}
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="px-6 py-8 text-center">
-                                    <div class="text-green-300">
-                                        <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
-                                        </svg>
-                                        <p class="text-lg font-semibold">Belum ada data user</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <script>
-    function updateClock() {
-        const now = new Date();
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        document.getElementById('realtime-clock').textContent = now.toLocaleDateString('id-ID', options);
+    /* ── Welcome Banner ── */
+    .dash-banner {
+        background: linear-gradient(130deg, #1a4d2e 0%, #2d7a4f 60%, #38a169 100%);
+        border-radius: 14px;
+        padding: 1.25rem 1.5rem;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 1rem; flex-wrap: wrap;
+        position: relative; overflow: hidden;
+        margin-bottom: 1.25rem;
     }
-    updateClock();
-    setInterval(updateClock, 1000);
-    </script>
+    .dash-banner::before {
+        content: '';
+        position: absolute; top: -40px; right: -40px;
+        width: 160px; height: 160px; border-radius: 50%;
+        background: rgba(255,255,255,.06); pointer-events: none;
+    }
+    .dash-banner::after {
+        content: '';
+        position: absolute; bottom: -30px; right: 60px;
+        width: 100px; height: 100px; border-radius: 50%;
+        background: rgba(255,255,255,.04); pointer-events: none;
+    }
+    .banner-left { display: flex; align-items: center; gap: .85rem; position: relative; z-index: 1; }
+    .banner-avatar {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.25);
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .banner-title { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.3; }
+    .banner-sub   { font-size: .78rem; color: rgba(255,255,255,.65); margin-top: 1px; }
+    .banner-clock {
+        position: relative; z-index: 1;
+        display: flex; align-items: center; gap: .4rem;
+        background: rgba(0,0,0,.18); border-radius: 999px;
+        padding: .35rem .85rem; font-size: .75rem; color: rgba(255,255,255,.8);
+    }
 
+    /* ── Stat Cards ── */
+    .stat-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: .85rem; margin-bottom: 1.25rem;
+    }
+    @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .stat-grid { grid-template-columns: 1fr; } }
+
+    .stat-card {
+        background: #fff; border-radius: 12px;
+        border: 1px solid rgba(29,77,46,.09);
+        padding: 1rem 1.1rem;
+        box-shadow: 0 1px 6px rgba(29,77,46,.06);
+        display: flex; align-items: center; gap: .9rem;
+        transition: box-shadow .2s, transform .2s;
+    }
+    .stat-card:hover { box-shadow: 0 4px 18px rgba(29,77,46,.12); transform: translateY(-1px); }
+
+    .stat-icon {
+        width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: #f0fdf4;
+    }
+    .stat-body { flex: 1; min-width: 0; }
+    .stat-label { font-size: .68rem; font-weight: 600; color: #6b7f72; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-value { font-size: 1.55rem; font-weight: 800; color: #1a4d2e; line-height: 1.2; margin-top: 1px; }
+    .stat-desc  { font-size: .68rem; color: #9aada0; margin-top: 2px; }
+
+    /* ── Table Card ── */
+    .table-card {
+        background: #fff; border-radius: 14px;
+        border: 1px solid rgba(29,77,46,.08);
+        box-shadow: 0 1px 6px rgba(29,77,46,.06);
+        overflow: hidden;
+    }
+    .table-hdr {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: .9rem 1.2rem; border-bottom: 1px solid #f0fdf4;
+    }
+    .table-hdr-left { display: flex; align-items: center; gap: .6rem; }
+    .table-hdr-icon {
+        width: 30px; height: 30px; border-radius: 8px;
+        background: #f0fdf4; display: flex; align-items: center; justify-content: center;
+    }
+    .table-hdr-title { font-size: .9rem; font-weight: 700; color: #1a4d2e; }
+    .btn-view-all {
+        display: inline-flex; align-items: center; gap: .3rem;
+        padding: .4rem .9rem; border-radius: 8px; font-size: .75rem; font-weight: 600;
+        background: #f0fdf4; color: #2d7a4f; text-decoration: none;
+        border: 1px solid #d1fae5; transition: all .15s;
+    }
+    .btn-view-all:hover { background: #dcfce7; color: #1a4d2e; }
+
+    /* Table */
+    .dash-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .dash-table th {
+        padding: .6rem 1rem; text-align: left;
+        font-size: .68rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .06em; color: #6b7f72;
+        background: #f9fafb; border-bottom: 1px solid #f0fdf4;
+    }
+    .dash-table td { padding: .65rem 1rem; border-bottom: 1px solid #f9fafb; color: #374151; }
+    .dash-table tr:last-child td { border-bottom: none; }
+    .dash-table tr:hover td { background: #fafffe; }
+
+    .user-avatar {
+        width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+        background: linear-gradient(135deg, #2d7a4f, #38a169);
+        display: flex; align-items: center; justify-content: center;
+        font-size: .72rem; font-weight: 800; color: #fff;
+    }
+    .user-cell { display: flex; align-items: center; gap: .6rem; }
+    .user-name { font-weight: 600; color: #111827; }
+
+    /* Role badges — all green tones */
+    .badge {
+        display: inline-flex; align-items: center; gap: .25rem;
+        padding: .2rem .65rem; border-radius: 999px;
+        font-size: .68rem; font-weight: 700;
+    }
+    .badge-sa { background: #1a4d2e; color: #fff; }
+    .badge-admin { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .badge-user  { background: #f0fdf4; color: #4d7c5a; border: 1px solid #d1fae5; }
+
+    .empty-state { padding: 2.5rem; text-align: center; color: #9aada0; }
+    .empty-state svg { margin: 0 auto .75rem; display: block; }
+</style>
+@endpush
+
+@section('content')
+<div class="dash-root">
+
+    {{-- Banner --}}
+    <div class="dash-banner">
+        <div class="banner-left">
+            <div class="banner-avatar">
+                <svg width="18" height="18" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <div>
+                <div class="banner-title">Selamat Datang, {{ Auth::user()->nama }}</div>
+                <div class="banner-sub">Super Administrator &mdash; Sistem Pakar Kopi</div>
+            </div>
+        </div>
+        <div class="banner-clock">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg>
+            <span id="realtime-clock"></span>
+        </div>
+    </div>
+
+    {{-- Stat Cards --}}
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" stroke="#2d7a4f" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20H7m10 0v-2a3 3 0 00-3-3H10a3 3 0 00-3 3v2m0 0H2v-2a3 3 0 015.356-1.857M7 20v-2m5-10a4 4 0 110-8 4 4 0 010 8z"/></svg>
+            </div>
+            <div class="stat-body">
+                <div class="stat-label">Total Users</div>
+                <div class="stat-value">{{ \App\Models\User::count() }}</div>
+                <div class="stat-desc">Semua pengguna</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" stroke="#2d7a4f" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div class="stat-body">
+                <div class="stat-label">Super Admin</div>
+                <div class="stat-value">{{ \App\Models\User::where('role', 'super_admin')->count() }}</div>
+                <div class="stat-desc">Full access</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" stroke="#2d7a4f" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div class="stat-body">
+                <div class="stat-label">Admin</div>
+                <div class="stat-value">{{ \App\Models\User::where('role', 'admin')->count() }}</div>
+                <div class="stat-desc">Administrator</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="18" height="18" fill="none" stroke="#2d7a4f" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div class="stat-body">
+                <div class="stat-label">Regular Users</div>
+                <div class="stat-value">{{ \App\Models\User::where('role', 'user')->count() }}</div>
+                <div class="stat-desc">Pengguna biasa</div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Recent Users --}}
+    <div class="table-card">
+        <div class="table-hdr">
+            <div class="table-hdr-left">
+                <div class="table-hdr-icon">
+                    <svg width="14" height="14" fill="none" stroke="#2d7a4f" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <span class="table-hdr-title">Recent Users</span>
+            </div>
+            <a href="{{ route('super-admin.users.index') }}" class="btn-view-all">
+                Lihat Semua
+                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <div style="overflow-x:auto;">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Bergabung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse(\App\Models\User::latest()->take(5)->get() as $user)
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar">{{ strtoupper(substr($user->username, 0, 1)) }}</div>
+                                <span class="user-name">{{ $user->username }}</span>
+                            </div>
+                        </td>
+                        <td>{{ $user->nama }}</td>
+                        <td style="color:#6b7280;">{{ $user->email }}</td>
+                        <td>
+                            @if($user->role === 'super_admin')
+                                <span class="badge badge-sa">Super Admin</span>
+                            @elseif($user->role === 'admin')
+                                <span class="badge badge-admin">Admin</span>
+                            @else
+                                <span class="badge badge-user">User</span>
+                            @endif
+                        </td>
+                        <td style="color:#6b7280; font-size:.75rem;">{{ $user->created_at->diffForHumans() }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <svg width="36" height="36" fill="none" stroke="#c4d6c8" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+                                Belum ada data user
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    document.getElementById('realtime-clock').textContent = now.toLocaleDateString('id-ID', options);
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
 @endsection
